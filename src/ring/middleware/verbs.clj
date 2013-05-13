@@ -10,7 +10,8 @@
 (defn- http-verb
   "If the requests _method is a HTTP verb name, return it as a keyword, otherwise return nil"
   [req]
-  (if-let [verb (-> req :params :_method s/lower-case)]
+  (let [method (get-in req [:params :_method] "")
+        verb (s/lower-case method)]
     (if (some #(= verb %) verbs)
       (keyword verb))))
 
